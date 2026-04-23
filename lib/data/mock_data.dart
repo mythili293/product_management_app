@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+
+class MockData {
+  static List<Map<String, dynamic>> historyData = [
+    {
+      'item': 'Temperature Sensor', 'type': 'Electric', 'code': 'ELE-001', 'icon': Icons.thermostat,
+      'user': 'Arun Kumar', 'role': 'Technician', 'takenDate': '24 Apr 2024', 'takenTime': '10:30 AM',
+      'returnedDate': '—', 'returnedTime': '', 'status': 'Not Returned', 'statusColor': const Color(0xFFD97706), 'statusBg': const Color(0xFFFEF3C7), 'statusIcon': Icons.schedule,
+      'isReturnable': false
+    },
+    {
+      'item': 'Pressure Sensor', 'type': 'Electric', 'code': 'ELE-002', 'icon': Icons.speed,
+      'user': 'Priya Sharma', 'role': 'Engineer', 'takenDate': '22 Apr 2024', 'takenTime': '03:15 PM',
+      'returnedDate': '—', 'returnedTime': '', 'status': 'Not Returned', 'statusColor': const Color(0xFFD97706), 'statusBg': const Color(0xFFFEF3C7), 'statusIcon': Icons.schedule,
+      'isReturnable': false
+    },
+    {
+      'item': 'Thermocouple Sensor', 'type': 'Electric', 'code': 'ELE-003', 'icon': Icons.cable,
+      'user': 'Vikram Singh', 'role': 'Technician', 'takenDate': '20 Apr 2024', 'takenTime': '11:45 AM',
+      'returnedDate': '21 Apr 2024', 'returnedTime': '09:30 AM', 'status': 'Returned', 'statusColor': const Color(0xFF16A34A), 'statusBg': const Color(0xFFDCFCE7), 'statusIcon': Icons.check_circle_outline,
+      'isReturnable': true
+    },
+    {
+      'item': 'Load Cell', 'type': 'Electric', 'code': 'ELE-008', 'icon': Icons.scale,
+      'user': 'Suresh Babu', 'role': 'Engineer', 'takenDate': '8 Apr 2024', 'takenTime': '01:25 PM',
+      'returnedDate': '—', 'returnedTime': '', 'status': 'Overdue', 'statusColor': const Color(0xFFDC2626), 'statusBg': const Color(0xFFFEE2E2), 'statusIcon': Icons.error_outline,
+      'isReturnable': null
+    },
+    {
+      'item': 'Multimeter', 'type': 'Electronic', 'code': 'ELN-005', 'icon': Icons.av_timer,
+      'user': 'Rahul Verma', 'role': 'Technician', 'takenDate': '01 Apr 2024', 'takenTime': '09:00 AM',
+      'returnedDate': '—', 'returnedTime': '', 'status': 'Overdue', 'statusColor': const Color(0xFFDC2626), 'statusBg': const Color(0xFFFEE2E2), 'statusIcon': Icons.error_outline,
+      'isReturnable': null
+    },
+  ];
+
+  static List<Map<String, dynamic>> allItems = [
+    {'title': 'Temperature Sensor', 'subtitle': 'Measure and monitor temperature values.', 'icon': Icons.thermostat, 'category': 'Electric', 'code': 'ELE-001'},
+    {'title': 'Pressure Sensor', 'subtitle': 'Measure and monitor pressure values.', 'icon': Icons.speed, 'category': 'Electric', 'code': 'ELE-002'},
+    {'title': 'Oscilloscope', 'subtitle': 'Observe varying signal voltages.', 'icon': Icons.desktop_windows, 'category': 'Electronic', 'code': 'ELN-001'},
+    {'title': 'Power Supply', 'subtitle': 'Supply electric power to an electrical load.', 'icon': Icons.power, 'category': 'Electronic', 'code': 'ELN-002'},
+    {'title': 'Thermocouple Sensor', 'subtitle': 'Measure temperature using thermocouple.', 'icon': Icons.cable, 'category': 'Electric', 'code': 'ELE-003'},
+    {'title': 'Flowmeter', 'subtitle': 'Measure the flow rate of liquids or gases.', 'icon': Icons.water_drop, 'category': 'Electric', 'code': 'ELE-004'},
+    {'title': 'LCR Meter', 'subtitle': 'Measure the inductance, capacitance, and resistance.', 'icon': Icons.speed, 'category': 'Electronic', 'code': 'ELN-003'},
+    {'title': 'Impedance Analyzer', 'subtitle': 'Measure complex electrical impedance.', 'icon': Icons.analytics, 'category': 'Electronic', 'code': 'ELN-004'},
+    {'title': 'RTD Sensor', 'subtitle': 'Measure temperature using RTD.', 'icon': Icons.sensors, 'category': 'Electric', 'code': 'ELE-005'},
+    {'title': 'Plug Type Temp Sensor', 'subtitle': 'Temperature sensor with plug connection.', 'icon': Icons.electrical_services, 'category': 'Electric', 'code': 'ELE-006'},
+    {'title': 'Signal Generator', 'subtitle': 'Generate electronic signals with set properties.', 'icon': Icons.waves, 'category': 'Electronic', 'code': 'ELN-005'},
+    {'title': 'Digital Multimeter', 'subtitle': 'Measure voltage, current, and resistance.', 'icon': Icons.calculate, 'category': 'Electronic', 'code': 'ELN-006'},
+    {'title': 'Torque Wrench', 'subtitle': 'Apply specific torque to fasteners.', 'icon': Icons.build, 'category': 'Electric', 'code': 'ELE-007'},
+    {'title': 'Spectrum Analyzer', 'subtitle': 'Analyze the spectrum of electrical signals.', 'icon': Icons.bar_chart, 'category': 'Electronic', 'code': 'ELN-007'},
+    {'title': 'Function Generator', 'subtitle': 'Create common electrical waveforms.', 'icon': Icons.vibration, 'category': 'Electronic', 'code': 'ELN-008'},
+    {'title': 'Humidity Sensor', 'subtitle': 'Measure humidity in air or soil.', 'icon': Icons.cloud, 'category': 'Electric', 'code': 'ELE-008'},
+    {'title': 'pH Meter', 'subtitle': 'Measure the acidity or alkalinity of liquids.', 'icon': Icons.science, 'category': 'Electric', 'code': 'ELE-009'},
+    {'title': 'Voltage Regulator', 'subtitle': 'Maintain a constant voltage level.', 'icon': Icons.bolt, 'category': 'Electronic', 'code': 'ELN-009'},
+    {'title': 'Current Transformer', 'subtitle': 'Produce a current proportional to another.', 'icon': Icons.loop, 'category': 'Electric', 'code': 'ELE-010'},
+    {'title': 'Logic Analyzer', 'subtitle': 'Capture and display digital signal levels.', 'icon': Icons.dvr, 'category': 'Electronic', 'code': 'ELN-010'},
+  ];
+}
