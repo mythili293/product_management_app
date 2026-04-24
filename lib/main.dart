@@ -23,10 +23,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool isSupabaseConfigured;
 
-  const MyApp({
-    super.key,
-    required this.isSupabaseConfigured,
-  });
+  const MyApp({super.key, required this.isSupabaseConfigured});
 
   @override
   Widget build(BuildContext context) {

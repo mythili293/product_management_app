@@ -23,15 +23,27 @@ class AdminProductsTab extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Name')),
+                TextField(
+                  controller: nameCtrl,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
                 const SizedBox(height: 8),
-                TextField(controller: codeCtrl, decoration: const InputDecoration(labelText: 'Code')),
+                TextField(
+                  controller: codeCtrl,
+                  decoration: const InputDecoration(labelText: 'Code'),
+                ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   initialValue: category,
                   items: const [
-                    DropdownMenuItem(value: 'Electric', child: Text('Electric')),
-                    DropdownMenuItem(value: 'Electronic', child: Text('Electronic')),
+                    DropdownMenuItem(
+                      value: 'Electric',
+                      child: Text('Electric'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Electronic',
+                      child: Text('Electronic'),
+                    ),
                   ],
                   onChanged: (value) {
                     if (value != null) {
@@ -41,16 +53,30 @@ class AdminProductsTab extends StatelessWidget {
                   decoration: const InputDecoration(labelText: 'Category'),
                 ),
                 const SizedBox(height: 8),
-                TextField(controller: specCtrl, decoration: const InputDecoration(labelText: 'Specification')),
+                TextField(
+                  controller: specCtrl,
+                  decoration: const InputDecoration(labelText: 'Specification'),
+                ),
                 const SizedBox(height: 8),
-                TextField(controller: priceCtrl, decoration: const InputDecoration(labelText: 'Price'), keyboardType: TextInputType.number),
+                TextField(
+                  controller: priceCtrl,
+                  decoration: const InputDecoration(labelText: 'Price'),
+                  keyboardType: TextInputType.number,
+                ),
                 const SizedBox(height: 8),
-                TextField(controller: qtyCtrl, decoration: const InputDecoration(labelText: 'Quantity'), keyboardType: TextInputType.number),
+                TextField(
+                  controller: qtyCtrl,
+                  decoration: const InputDecoration(labelText: 'Quantity'),
+                  keyboardType: TextInputType.number,
+                ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
             ElevatedButton(
               onPressed: () async {
                 final product = Product(
@@ -65,8 +91,10 @@ class AdminProductsTab extends StatelessWidget {
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
                 );
-                await Provider.of<ProductProvider>(context, listen: false)
-                    .addProduct(product);
+                await Provider.of<ProductProvider>(
+                  context,
+                  listen: false,
+                ).addProduct(product);
                 if (context.mounted) {
                   Navigator.pop(ctx);
                 }
@@ -105,7 +133,9 @@ class AdminProductsTab extends StatelessWidget {
               final product = products[index];
               return ListTile(
                 title: Text(product.productName),
-                subtitle: Text('Stock: ${product.quantityAvailable} | \$${product.price}'),
+                subtitle: Text(
+                  'Stock: ${product.quantityAvailable} | \$${product.price}',
+                ),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () async {

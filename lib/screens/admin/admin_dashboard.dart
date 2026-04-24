@@ -30,7 +30,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             onPressed: () {
               Provider.of<AuthProvider>(context, listen: false).signOut();
             },
-          )
+          ),
         ],
       ),
       body: _tabs[_currentIndex],
@@ -38,8 +38,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'Products'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Purchases'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inventory),
+            label: 'Products',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Purchases',
+          ),
         ],
       ),
     );

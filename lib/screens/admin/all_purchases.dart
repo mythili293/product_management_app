@@ -17,8 +17,12 @@ class AllPurchasesScreen extends StatelessWidget {
       body: StreamBuilder<List<Purchase>>(
         stream: adminProvider.getAllPurchases(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData || snapshot.data!.isEmpty) return const Center(child: Text('No purchases yet.'));
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No purchases yet.'));
+          }
 
           final purchases = snapshot.data!;
           return ListView.builder(
@@ -27,7 +31,9 @@ class AllPurchasesScreen extends StatelessWidget {
               final p = purchases[index];
               return ListTile(
                 title: Text('${p.productName} (x${p.quantityBought})'),
-                subtitle: Text('User: ${p.userId}\nDate: ${DateFormat.yMd().add_jm().format(p.purchaseDate)}'),
+                subtitle: Text(
+                  'User: ${p.userId}\nDate: ${DateFormat.yMd().add_jm().format(p.purchaseDate)}',
+                ),
                 isThreeLine: true,
               );
             },

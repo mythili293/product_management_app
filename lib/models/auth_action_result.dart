@@ -16,15 +16,12 @@ class AuthActionResult {
     bool requiresEmailConfirmation = false,
     bool launchedExternalFlow = false,
   }) : this._(
-          isSuccess: true,
-          message: message,
-          requiresEmailConfirmation: requiresEmailConfirmation,
-          launchedExternalFlow: launchedExternalFlow,
-        );
+         isSuccess: true,
+         message: message,
+         requiresEmailConfirmation: requiresEmailConfirmation,
+         launchedExternalFlow: launchedExternalFlow,
+       );
 
   const AuthActionResult.failure(String message)
-      : this._(
-          isSuccess: false,
-          message: message,
-        );
+    : this._(isSuccess: false, message: message);
 }

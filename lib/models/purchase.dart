@@ -19,23 +19,31 @@ class Purchase {
 
   factory Purchase.fromMap(Map<String, dynamic> data) {
     return Purchase(
-      purchaseId: data['id']?.toString() ?? data['purchaseId']?.toString() ?? '',
+      purchaseId:
+          data['id']?.toString() ?? data['purchaseId']?.toString() ?? '',
       userId: data['user_id']?.toString() ?? data['userId']?.toString() ?? '',
       productId:
           data['product_id']?.toString() ?? data['productId']?.toString() ?? '',
-      productName: data['product_name']?.toString() ??
+      productName:
+          data['product_name']?.toString() ??
           data['productName']?.toString() ??
           '',
       quantityBought:
-          data['quantity_bought'] as int? ?? data['quantityBought'] as int? ?? 0,
-      totalAmount: (data['total_amount'] as num?)?.toDouble() ??
+          data['quantity_bought'] as int? ??
+          data['quantityBought'] as int? ??
+          0,
+      totalAmount:
+          (data['total_amount'] as num?)?.toDouble() ??
           (data['totalAmount'] as num?)?.toDouble() ??
           0,
       purchaseDate:
-          DateTime.tryParse(data['purchase_date']?.toString() ?? '')?.toLocal() ??
-              DateTime.tryParse(data['purchaseDate']?.toString() ?? '')
-                  ?.toLocal() ??
-              DateTime.now(),
+          DateTime.tryParse(
+            data['purchase_date']?.toString() ?? '',
+          )?.toLocal() ??
+          DateTime.tryParse(
+            data['purchaseDate']?.toString() ?? '',
+          )?.toLocal() ??
+          DateTime.now(),
     );
   }
 

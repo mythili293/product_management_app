@@ -25,7 +25,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> _init() async {
-    _authSubscription = _authService.authStateChanges.listen((String? userUid) async {
+    _authSubscription = _authService.authStateChanges.listen((
+      String? userUid,
+    ) async {
       if (userUid != null) {
         _appUser = await _authService.getUserData(userUid);
       } else {
@@ -39,18 +41,28 @@ class AuthProvider with ChangeNotifier {
   Future<AuthActionResult> signIn(String email, String password) async {
     _isLoading = true;
     notifyListeners();
-    final result = await _authService.signInWithEmailAndPassword(email, password);
+    final result = await _authService.signInWithEmailAndPassword(
+      email,
+      password,
+    );
     _lastMessage = result.message;
     _isLoading = false;
     notifyListeners();
     return result;
   }
 
-  Future<AuthActionResult> signUp(String email, String password, String name) async {
+  Future<AuthActionResult> signUp(
+    String email,
+    String password,
+    String name,
+  ) async {
     _isLoading = true;
     notifyListeners();
-    final result =
-        await _authService.signUpWithEmailAndPassword(email, password, name);
+    final result = await _authService.signUpWithEmailAndPassword(
+      email,
+      password,
+      name,
+    );
     _lastMessage = result.message;
     _isLoading = false;
     notifyListeners();

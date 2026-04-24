@@ -10,14 +10,14 @@ class DatabaseService {
   Stream<List<Product>> getProducts({String? category}) {
     final stream = category == null
         ? _client
-            .from('products')
-            .stream(primaryKey: ['id'])
-            .order('created_at', ascending: false)
+              .from('products')
+              .stream(primaryKey: ['id'])
+              .order('created_at', ascending: false)
         : _client
-            .from('products')
-            .stream(primaryKey: ['id'])
-            .eq('category', category)
-            .order('created_at', ascending: false);
+              .from('products')
+              .stream(primaryKey: ['id'])
+              .eq('category', category)
+              .order('created_at', ascending: false);
 
     return stream.map(
       (rows) => rows.map((row) => Product.fromMap(row)).toList(),
@@ -73,8 +73,7 @@ class DatabaseService {
         .stream(primaryKey: ['id'])
         .order('updated_at', ascending: false)
         .map(
-          (rows) =>
-              rows.map((row) => InventoryActivity.fromMap(row)).toList(),
+          (rows) => rows.map((row) => InventoryActivity.fromMap(row)).toList(),
         );
   }
 
@@ -95,9 +94,8 @@ class DatabaseService {
   }
 
   Future<void> saveInventoryActivity(InventoryActivity activity) async {
-    await _client.from('inventory_activity').upsert(
-          activity.toUpsertMap(),
-          onConflict: 'product_id',
-        );
+    await _client
+        .from('inventory_activity')
+        .upsert(activity.toUpsertMap(), onConflict: 'product_id');
   }
 }

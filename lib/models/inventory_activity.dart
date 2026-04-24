@@ -117,7 +117,9 @@ class InventoryActivity {
       takenAt: clearTakenAt ? null : takenAt ?? this.takenAt,
       returnedAt: clearReturnedAt ? null : returnedAt ?? this.returnedAt,
       status: status ?? this.status,
-      isReturnable: clearIsReturnable ? null : isReturnable ?? this.isReturnable,
+      isReturnable: clearIsReturnable
+          ? null
+          : isReturnable ?? this.isReturnable,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

@@ -21,9 +21,8 @@ class AppUser {
       role: data['role']?.toString() ?? 'user',
       createdAt:
           DateTime.tryParse(data['created_at']?.toString() ?? '')?.toLocal() ??
-              DateTime.tryParse(data['createdAt']?.toString() ?? '')
-                  ?.toLocal() ??
-              DateTime.now(),
+          DateTime.tryParse(data['createdAt']?.toString() ?? '')?.toLocal() ??
+          DateTime.now(),
     );
   }
 

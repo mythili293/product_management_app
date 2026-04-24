@@ -29,12 +29,12 @@ class _SignupScreenState extends State<SignupScreen> {
     final result = await authProvider.signUp(
       _emailController.text.trim(),
       _passwordController.text,
-      _nameController.text.trim()
+      _nameController.text.trim(),
     );
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
     }
 
     if (result.isSuccess && mounted) {
@@ -81,7 +81,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-          
+
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -94,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       borderRadius: BorderRadius.circular(24.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -108,11 +108,14 @@ class _SignupScreenState extends State<SignupScreen> {
                           alignment: Alignment.centerLeft,
                           child: InkWell(
                             onTap: () => Navigator.pop(context),
-                            child: const Icon(Icons.arrow_back, color: AppTheme.textSecondary),
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: AppTheme.textSecondary,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Icon
                         Container(
                           padding: const EdgeInsets.all(16),
@@ -121,19 +124,27 @@ class _SignupScreenState extends State<SignupScreen> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryBlue.withOpacity(0.3),
+                                color: AppTheme.primaryBlue.withValues(
+                                  alpha: 0.3,
+                                ),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
-                              )
+                              ),
                             ],
                           ),
-                          child: const Icon(Icons.person_add_alt_1_outlined, color: Colors.white, size: 36),
+                          child: const Icon(
+                            Icons.person_add_alt_1_outlined,
+                            color: Colors.white,
+                            size: 36,
+                          ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         Text(
                           'Create Account',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 24),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(fontSize: 24),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -141,7 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 32),
-                        
+
                         // Full Name Field
                         TextField(
                           controller: _nameController,
@@ -151,7 +162,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Email Field
                         TextField(
                           controller: _emailController,
@@ -162,7 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Password Field
                         TextField(
                           controller: _passwordController,
@@ -172,15 +183,19 @@ class _SignupScreenState extends State<SignupScreen> {
                             prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
                                 color: const Color(0xFF9CA3AF),
                               ),
-                              onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                              onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Signup Button
                         SizedBox(
                           width: double.infinity,
@@ -189,15 +204,24 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: const Text('Sign Up'),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 24),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Already have an account?", style: Theme.of(context).textTheme.bodyMedium),
+                            Text(
+                              "Already have an account?",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                             TextButton(
                               onPressed: () => Navigator.pop(context),
-                              child: const Text('Login', style: TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w700)),
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: AppTheme.primaryBlue,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ],
                         ),

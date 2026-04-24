@@ -26,22 +26,26 @@ class Product {
   factory Product.fromMap(Map<String, dynamic> data) {
     final createdAt =
         DateTime.tryParse(data['created_at']?.toString() ?? '')?.toLocal() ??
-            DateTime.tryParse(data['createdAt']?.toString() ?? '')?.toLocal() ??
-            DateTime.now();
+        DateTime.tryParse(data['createdAt']?.toString() ?? '')?.toLocal() ??
+        DateTime.now();
     final updatedAt =
         DateTime.tryParse(data['updated_at']?.toString() ?? '')?.toLocal() ??
-            DateTime.tryParse(data['updatedAt']?.toString() ?? '')?.toLocal() ??
-            createdAt;
+        DateTime.tryParse(data['updatedAt']?.toString() ?? '')?.toLocal() ??
+        createdAt;
 
     return Product(
       productId: data['id']?.toString() ?? data['productId']?.toString() ?? '',
       productName:
-          data['product_name']?.toString() ?? data['productName']?.toString() ?? '',
+          data['product_name']?.toString() ??
+          data['productName']?.toString() ??
+          '',
       specification: data['specification']?.toString() ?? '',
       category: data['category']?.toString() ?? 'Electric',
       code: data['code']?.toString() ?? '',
-      imageUrl: data['image_url']?.toString() ?? data['imageUrl']?.toString() ?? '',
-      quantityAvailable: data['quantity_available'] as int? ??
+      imageUrl:
+          data['image_url']?.toString() ?? data['imageUrl']?.toString() ?? '',
+      quantityAvailable:
+          data['quantity_available'] as int? ??
           data['quantityAvailable'] as int? ??
           0,
       price: (data['price'] as num?)?.toDouble() ?? 0,

@@ -2,8 +2,9 @@ class SupabaseConfig {
   const SupabaseConfig._();
 
   static const String url = String.fromEnvironment('SUPABASE_URL');
-  static const String _publishableKey =
-      String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  static const String _publishableKey = String.fromEnvironment(
+    'SUPABASE_PUBLISHABLE_KEY',
+  );
   static const String _anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
   static const String redirectScheme = String.fromEnvironment(
     'SUPABASE_REDIRECT_SCHEME',

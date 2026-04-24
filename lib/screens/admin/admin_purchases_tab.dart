@@ -25,13 +25,22 @@ class AdminPurchasesTab extends StatelessWidget {
           itemCount: purchases.length,
           itemBuilder: (context, index) {
             final purchase = purchases[index];
-            final dateStr = DateFormat('MMM d, yyyy h:mm a').format(purchase.purchaseDate);
+            final dateStr = DateFormat(
+              'MMM d, yyyy h:mm a',
+            ).format(purchase.purchaseDate);
             return ListTile(
               leading: const Icon(Icons.shopping_bag),
-              title: Text('${purchase.productName} (x${purchase.quantityBought})'),
+              title: Text(
+                '${purchase.productName} (x${purchase.quantityBought})',
+              ),
               subtitle: Text('Buyer UID: ${purchase.userId}\n$dateStr'),
-              trailing: Text('\$${purchase.totalAmount.toStringAsFixed(2)}', 
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              trailing: Text(
+                '\$${purchase.totalAmount.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
               isThreeLine: true,
             );
           },

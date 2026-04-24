@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import '../../core/theme.dart';
+import '../../models/product.dart';
+import '../../providers/product_provider.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/primary_button.dart';
-import '../../data/mock_data.dart';
 
 class AddItemScreen extends StatefulWidget {
   const AddItemScreen({super.key});
@@ -17,38 +20,64 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final _nameController = TextEditingController();
   final _codeController = TextEditingController();
   final _descController = TextEditingController();
-  
+  final _qtyController = TextEditingController(text: '1');
+  final _priceController = TextEditingController(text: '0');
+
   String _selectedCategory = 'Electric';
   bool _isSubmitting = false;
 
-  void _submitItem() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isSubmitting = true);
-      
-      // Simulating a short delay for UX
-      await Future.delayed(const Duration(milliseconds: 600));
-      
-      // Actually add to MockData
-      final newItem = {
-        'title': _nameController.text.trim(),
-        'subtitle': _descController.text.trim(),
-        'icon': _selectedCategory == 'Electric' ? Icons.electrical_services : Icons.memory,
-        'category': _selectedCategory,
-        'code': _codeController.text.trim().toUpperCase(),
-        'isAvailable': true,
-      };
-      
-      MockData.allItems.add(newItem);
-      
-      if (!mounted) return;
+  Future<void> _submitItem() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+
+    try {
+      final product = Product(
+        productId: '',
+        productName: _nameController.text.trim(),
+        specification: _descController.text.trim(),
+        category: _selectedCategory,
+        code: _codeController.text.trim().toUpperCase(),
+        imageUrl: '',
+        quantityAvailable: int.parse(_qtyController.text.trim()),
+        price: double.parse(_priceController.text.trim()),
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      await Provider.of<ProductProvider>(
+        context,
+        listen: false,
+      ).addProduct(product);
+
+      if (!mounted) {
+        return;
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${_nameController.text} added to inventory!', style: const TextStyle(color: Colors.white)),
+          content: Text(
+            '${_nameController.text} added to inventory!',
+            style: const TextStyle(color: Colors.white),
+          ),
           backgroundColor: const Color(0xFF16A34A),
           behavior: SnackBarBehavior.floating,
         ),
       );
-      Navigator.pop(context); // Go back
+      Navigator.pop(context);
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
     }
   }
 
@@ -63,7 +92,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Add New Item', style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.w600)),
+        title: Text(
+          'Add New Item',
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -82,30 +117,45 @@ class _AddItemScreenState extends State<AddItemScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 10),
-                Text('Item Specifics', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1F2937))),
+                Text(
+                  'Item Specifics',
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF1F2937),
+                  ),
+                ),
                 const SizedBox(height: 16),
-                
                 CustomTextField(
                   controller: _nameController,
                   labelText: 'Item Name',
                   prefixIcon: Icons.extension_outlined,
-                  validator: (value) => value!.isEmpty ? 'Item name required' : null,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Item name required' : null,
                 ),
                 const SizedBox(height: 16),
-                
                 CustomTextField(
                   controller: _codeController,
                   labelText: 'Item Code (e.g. ELE-102)',
                   prefixIcon: Icons.qr_code_scanner,
-                  validator: (value) => value!.isEmpty ? 'Item code required' : null,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Item code required' : null,
                 ),
-                
                 const SizedBox(height: 24),
-                Text('Categorization', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1F2937))),
+                Text(
+                  'Categorization',
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF1F2937),
+                  ),
+                ),
                 const SizedBox(height: 16),
-                
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -115,27 +165,82 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     child: DropdownButton<String>(
                       value: _selectedCategory,
                       isExpanded: true,
-                      icon: const Icon(Icons.keyboard_arrow_down, color: AppTheme.primaryBlue),
-                      style: GoogleFonts.inter(color: const Color(0xFF1F2937), fontSize: 15, fontWeight: FontWeight.w600),
-                      items: ['Electric', 'Electronic'].map((String category) {
-                        return DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
-                        );
-                      }).toList(),
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: AppTheme.primaryBlue,
+                      ),
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF1F2937),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Electric',
+                          child: Text('Electric'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Electronic',
+                          child: Text('Electronic'),
+                        ),
+                      ],
                       onChanged: (newValue) {
-                        if (newValue != null) setState(() => _selectedCategory = newValue);
+                        if (newValue != null) {
+                          setState(() => _selectedCategory = newValue);
+                        }
                       },
                     ),
                   ),
                 ),
-                
-                const SizedBox(height: 16),
-                
                 const SizedBox(height: 24),
-                Text('Additional Information', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1F2937))),
+                Text(
+                  'Inventory Details',
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF1F2937),
+                  ),
+                ),
                 const SizedBox(height: 16),
-                
+                CustomTextField(
+                  controller: _qtyController,
+                  labelText: 'Quantity',
+                  prefixIcon: Icons.numbers,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Quantity required';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Enter a valid number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  controller: _priceController,
+                  labelText: 'Price',
+                  prefixIcon: Icons.currency_rupee,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Price required';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Enter a valid amount';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  'Additional Information',
+                  style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF1F2937),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _descController,
                   maxLines: 4,
@@ -154,15 +259,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: AppTheme.primaryBlue, width: 2),
+                      borderSide: const BorderSide(
+                        color: AppTheme.primaryBlue,
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),
-                
                 const SizedBox(height: 32),
                 _isSubmitting
-                  ? const Center(child: CircularProgressIndicator())
-                  : PrimaryButton(text: 'ADD TO INVENTORY', onPressed: _submitItem),
+                    ? const Center(child: CircularProgressIndicator())
+                    : PrimaryButton(
+                        text: 'ADD TO INVENTORY',
+                        onPressed: _submitItem,
+                      ),
                 const SizedBox(height: 32),
               ],
             ),
@@ -177,6 +287,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _nameController.dispose();
     _codeController.dispose();
     _descController.dispose();
+    _qtyController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 }

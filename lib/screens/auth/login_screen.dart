@@ -31,9 +31,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordController.text,
     );
     if (!result.isSuccess && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
     }
   }
 
@@ -41,20 +41,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final result = await authProvider.signInWithGoogle();
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
     }
   }
 
   void _sendPasswordReset() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final result =
-        await authProvider.sendPasswordResetEmail(_emailController.text.trim());
+    final result = await authProvider.sendPasswordResetEmail(
+      _emailController.text.trim(),
+    );
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
     }
   }
 
@@ -97,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          
+
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(24.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -127,20 +128,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryBlue.withOpacity(0.3),
+                                color: AppTheme.primaryBlue.withValues(
+                                  alpha: 0.3,
+                                ),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
-                              )
+                              ),
                             ],
                           ),
-                          child: const Icon(Icons.inventory_2_outlined, color: Colors.white, size: 36),
+                          child: const Icon(
+                            Icons.inventory_2_outlined,
+                            color: Colors.white,
+                            size: 36,
+                          ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Header text
                         Text(
                           'Product Manager',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 24),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(fontSize: 24),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -148,13 +157,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 32),
-                        
+
                         // Welcome text aligned left
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'Welcome Back!',
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleLarge?.copyWith(fontSize: 18),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -166,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Email Field
                         TextField(
                           controller: _emailController,
@@ -177,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Password Field
                         TextField(
                           controller: _passwordController,
@@ -187,15 +198,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
                                 color: const Color(0xFF9CA3AF),
                               ),
-                              onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                              onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Options Row
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,21 +219,35 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Checkbox(
                                   value: _rememberMe,
-                                  onChanged: (val) => setState(() => _rememberMe = val ?? false),
+                                  onChanged: (val) => setState(
+                                    () => _rememberMe = val ?? false,
+                                  ),
                                   activeColor: AppTheme.primaryBlue,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
                                 ),
-                                Text('Remember me', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14)),
+                                Text(
+                                  'Remember me',
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(fontSize: 14),
+                                ),
                               ],
                             ),
                             TextButton(
                               onPressed: _sendPasswordReset,
-                              child: const Text('Forgot Password?', style: TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w600)),
+                              child: const Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  color: AppTheme.primaryBlue,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Login Button
                         SizedBox(
                           width: double.infinity,
@@ -227,46 +256,78 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const Text('Login'),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 24),
                         Row(
                           children: [
-                            Expanded(child: Divider(color: Colors.grey.shade300)),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text('or', style: TextStyle(color: Colors.grey.shade500)),
+                            Expanded(
+                              child: Divider(color: Colors.grey.shade300),
                             ),
-                            Expanded(child: Divider(color: Colors.grey.shade300)),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Text(
+                                'or',
+                                style: TextStyle(color: Colors.grey.shade500),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(color: Colors.grey.shade300),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Google Continue Button
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
                             onPressed: _loginWithGoogle,
-                            icon: const Icon(Icons.g_mobiledata, color: Colors.red, size: 28),
-                            label: const Text('Continue with Google', style: TextStyle(color: AppTheme.textMain)),
+                            icon: const Icon(
+                              Icons.g_mobiledata,
+                              color: Colors.red,
+                              size: 28,
+                            ),
+                            label: const Text(
+                              'Continue with Google',
+                              style: TextStyle(color: AppTheme.textMain),
+                            ),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               side: BorderSide(color: Colors.grey.shade300),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 24),
                         // Sign Up Link
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Don't have an account?", style: Theme.of(context).textTheme.bodyMedium),
+                            Text(
+                              "Don't have an account?",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                             TextButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => const SignupScreen()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const SignupScreen(),
+                                  ),
+                                );
                               },
-                              child: const Text('Sign Up', style: TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w700)),
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: AppTheme.primaryBlue,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                           ],
                         ),

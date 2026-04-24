@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,8 +9,7 @@ import '../models/model_utils.dart';
 class AuthService {
   final SupabaseClient _client = Supabase.instance.client;
 
-  Stream<String?> get authStateChanges => _client.auth
-      .onAuthStateChange
+  Stream<String?> get authStateChanges => _client.auth.onAuthStateChange
       .map((data) => data.session?.user.id)
       .distinct();
 
@@ -22,7 +19,9 @@ class AuthService {
     String name,
   ) async {
     if (email.isEmpty || password.isEmpty || name.isEmpty) {
-      return const AuthActionResult.failure('Please fill in all required fields.');
+      return const AuthActionResult.failure(
+        'Please fill in all required fields.',
+      );
     }
 
     try {
@@ -56,21 +55,18 @@ class AuthService {
     String password,
   ) async {
     if (email.isEmpty || password.isEmpty) {
-      return const AuthActionResult.failure('Please fill in all required fields.');
+      return const AuthActionResult.failure(
+        'Please fill in all required fields.',
+      );
     }
 
     try {
-      await _client.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
+      await _client.auth.signInWithPassword(email: email, password: password);
       return const AuthActionResult.success('Signed in successfully.');
     } on AuthException catch (error) {
       return AuthActionResult.failure(error.message);
     } catch (_) {
-      return const AuthActionResult.failure(
-        'Unable to sign in right now.',
-      );
+      return const AuthActionResult.failure('Unable to sign in right now.');
     }
   }
 
@@ -144,16 +140,7 @@ class AuthService {
     await _client.auth.signOut();
   }
 
-  Future<void> _ensureProfile(
-    User user, {
-    String? preferredName,
-  }) async {
-    final existingProfile = await _client
-        .from('profiles')
-        .select('role, name')
-        .eq('id', user.id)
-        .maybeSingle();
-
+  Future<void> _ensureProfile(User user, {String? preferredName}) async {
     final email = normalizeText(user.email);
     final metadata = user.userMetadata ?? {};
     final computedName = normalizeText(
@@ -167,14 +154,9 @@ class AuthService {
       ),
     );
 
-    await _client.from('profiles').upsert(
-      {
-        'id': user.id,
-        'name': computedName,
-        'email': email,
-        'role': normalizeText(existingProfile?['role'], fallback: 'user'),
-      },
-      onConflict: 'id',
+    await _client.rpc(
+      'sync_current_profile',
+      params: {'p_name': computedName, 'p_email': email},
     );
   }
 }

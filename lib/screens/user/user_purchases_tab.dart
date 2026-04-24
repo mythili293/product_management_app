@@ -11,7 +11,10 @@ class UserPurchasesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dbService = DatabaseService();
-    final uid = Provider.of<AuthProvider>(context, listen: false).appUser!.userId;
+    final uid = Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).appUser!.userId;
 
     return StreamBuilder<List<Purchase>>(
       stream: dbService.getPersonalPurchases(uid),
@@ -20,7 +23,9 @@ class UserPurchasesTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('You have not made any purchases yet.'));
+          return const Center(
+            child: Text('You have not made any purchases yet.'),
+          );
         }
 
         final purchases = snapshot.data!;
@@ -28,13 +33,22 @@ class UserPurchasesTab extends StatelessWidget {
           itemCount: purchases.length,
           itemBuilder: (context, index) {
             final purchase = purchases[index];
-            final dateStr = DateFormat('MMM d, yyyy h:mm a').format(purchase.purchaseDate);
+            final dateStr = DateFormat(
+              'MMM d, yyyy h:mm a',
+            ).format(purchase.purchaseDate);
             return ListTile(
               leading: const Icon(Icons.shopping_bag_outlined),
-              title: Text('${purchase.productName} (x${purchase.quantityBought})'),
+              title: Text(
+                '${purchase.productName} (x${purchase.quantityBought})',
+              ),
               subtitle: Text(dateStr),
-              trailing: Text('\$${purchase.totalAmount.toStringAsFixed(2)}', 
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              trailing: Text(
+                '\$${purchase.totalAmount.toStringAsFixed(2)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             );
           },
         );

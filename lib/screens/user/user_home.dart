@@ -33,7 +33,7 @@ class _UserHomeState extends State<UserHome> {
             onPressed: () {
               Provider.of<AuthProvider>(context, listen: false).signOut();
             },
-          )
+          ),
         ],
       ),
       body: _tabs[_currentIndex],
@@ -42,7 +42,10 @@ class _UserHomeState extends State<UserHome> {
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.storefront), label: 'Store'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'My Orders'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'My Orders',
+          ),
         ],
       ),
     );
