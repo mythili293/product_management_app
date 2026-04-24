@@ -311,8 +311,8 @@ class _ElectricItemsScreenState extends State<ElectricItemsScreen> {
                                           ),
                                         ),
                                       );
-                                      if (result is bool &&
-                                          result &&
+                                      if ((result is bool && result ||
+                                              result is Product) &&
                                           context.mounted) {
                                         setState(() {});
                                       }

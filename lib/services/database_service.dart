@@ -93,6 +93,16 @@ class DatabaseService {
     return InventoryActivity.fromMap(response);
   }
 
+  Future<Product?> getProductById(String productId) async {
+    final response = await _client
+        .from('products')
+        .select()
+        .eq('id', productId)
+        .maybeSingle();
+    if (response == null) return null;
+    return Product.fromMap(response);
+  }
+
   Future<void> saveInventoryActivity(InventoryActivity activity) async {
     await _client
         .from('inventory_activity')

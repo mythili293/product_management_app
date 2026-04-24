@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme.dart';
 import '../../models/product.dart';
+import '../../services/database_service.dart';
 import 'dashboard_helpers.dart';
 import 'edit_item_screen.dart';
 
@@ -17,11 +18,25 @@ class ItemDetailsScreen extends StatefulWidget {
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   late Product _product;
+  final _db = DatabaseService();
 
   @override
   void initState() {
     super.initState();
     _product = widget.product;
+  }
+
+  /// Re-fetch the product from Supabase so the detail screen
+  /// always reflects the real DB value (including is_available).
+  Future<void> _refreshProduct() async {
+    try {
+      final rows = await _db.getProductById(_product.productId);
+      if (rows != null && mounted) {
+        setState(() => _product = rows);
+      }
+    } catch (_) {
+      // If re-fetch fails, keep whatever the edit screen returned.
+    }
   }
 
   @override
@@ -60,7 +75,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               if (result is bool && result) {
                 Navigator.pop(context, true);
               } else if (result is Product) {
-                setState(() => _product = result);
+                // Re-fetch from DB to get the real is_available value
+                await _refreshProduct();
               }
             },
           ),
@@ -297,7 +313,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         if (result is bool && result) {
                           Navigator.pop(context, true);
                         } else if (result is Product) {
-                          setState(() => _product = result);
+                          // Re-fetch from DB to get the real is_available value
+                          await _refreshProduct();
                         }
                       },
                       icon: const Icon(
