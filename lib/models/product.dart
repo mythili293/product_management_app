@@ -7,6 +7,7 @@ class Product {
   final String imageUrl;
   final int quantityAvailable;
   final double price;
+  final bool isAvailable;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -19,9 +20,12 @@ class Product {
     required this.imageUrl,
     required this.quantityAvailable,
     required this.price,
+    required this.isAvailable,
     required this.createdAt,
     required this.updatedAt,
   });
+
+  static bool isAvailableForQuantity(int quantity) => quantity > 0;
 
   factory Product.fromMap(Map<String, dynamic> data) {
     final createdAt =
@@ -32,6 +36,11 @@ class Product {
         DateTime.tryParse(data['updated_at']?.toString() ?? '')?.toLocal() ??
         DateTime.tryParse(data['updatedAt']?.toString() ?? '')?.toLocal() ??
         createdAt;
+
+    final qty =
+        data['quantity_available'] as int? ??
+        data['quantityAvailable'] as int? ??
+        0;
 
     return Product(
       productId: data['id']?.toString() ?? data['productId']?.toString() ?? '',
@@ -44,11 +53,9 @@ class Product {
       code: data['code']?.toString() ?? '',
       imageUrl:
           data['image_url']?.toString() ?? data['imageUrl']?.toString() ?? '',
-      quantityAvailable:
-          data['quantity_available'] as int? ??
-          data['quantityAvailable'] as int? ??
-          0,
+      quantityAvailable: qty,
       price: (data['price'] as num?)?.toDouble() ?? 0,
+      isAvailable: isAvailableForQuantity(qty),
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -63,6 +70,7 @@ class Product {
     String? imageUrl,
     int? quantityAvailable,
     double? price,
+    bool? isAvailable,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -75,12 +83,11 @@ class Product {
       imageUrl: imageUrl ?? this.imageUrl,
       quantityAvailable: quantityAvailable ?? this.quantityAvailable,
       price: price ?? this.price,
+      isAvailable: isAvailable ?? this.isAvailable,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
-
-  bool get isAvailable => quantityAvailable > 0;
 
   Map<String, dynamic> toInsertMap() {
     return {
@@ -91,6 +98,7 @@ class Product {
       'image_url': imageUrl.isEmpty ? null : imageUrl,
       'quantity_available': quantityAvailable,
       'price': price,
+      'is_available': isAvailableForQuantity(quantityAvailable),
     };
   }
 
@@ -103,6 +111,7 @@ class Product {
       'image_url': imageUrl.isEmpty ? null : imageUrl,
       'quantity_available': quantityAvailable,
       'price': price,
+      'is_available': isAvailableForQuantity(quantityAvailable),
     };
   }
 }

@@ -47,6 +47,8 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
     final adminProvider = Provider.of<AdminProvider>(context, listen: false);
 
     try {
+      final quantity = int.parse(_qtyCtrl.text.trim());
+
       if (widget.product == null) {
         final newProduct = Product(
           productId: '',
@@ -55,8 +57,9 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
           category: _categoryCtrl.text.trim(),
           code: _nameCtrl.text.trim().toUpperCase().replaceAll(' ', '-'),
           imageUrl: _imageUrlCtrl.text.trim(),
-          quantityAvailable: int.parse(_qtyCtrl.text.trim()),
+          quantityAvailable: quantity,
           price: double.parse(_priceCtrl.text.trim()),
+          isAvailable: Product.isAvailableForQuantity(quantity),
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -68,8 +71,9 @@ class _AddEditProductScreenState extends State<AddEditProductScreen> {
             specification: _descCtrl.text.trim(),
             category: _categoryCtrl.text.trim(),
             imageUrl: _imageUrlCtrl.text.trim(),
-            quantityAvailable: int.parse(_qtyCtrl.text.trim()),
+            quantityAvailable: quantity,
             price: double.parse(_priceCtrl.text.trim()),
+            isAvailable: Product.isAvailableForQuantity(quantity),
             updatedAt: DateTime.now(),
           ),
         );

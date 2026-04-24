@@ -34,6 +34,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     setState(() => _isSubmitting = true);
 
     try {
+      final quantity = int.parse(_qtyController.text.trim());
+
       final product = Product(
         productId: '',
         productName: _nameController.text.trim(),
@@ -41,8 +43,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         category: _selectedCategory,
         code: _codeController.text.trim().toUpperCase(),
         imageUrl: '',
-        quantityAvailable: int.parse(_qtyController.text.trim()),
+        quantityAvailable: quantity,
         price: double.parse(_priceController.text.trim()),
+        isAvailable: quantity > 0,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );

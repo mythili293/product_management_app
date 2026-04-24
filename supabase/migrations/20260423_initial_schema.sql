@@ -17,6 +17,7 @@ create table if not exists public.products (
   code text not null unique,
   image_url text,
   quantity_available integer not null default 0 check (quantity_available >= 0),
+  is_available boolean not null default true,
   price numeric(10, 2) not null default 0 check (price >= 0),
   created_by uuid references public.profiles (id) on delete set null,
   created_at timestamptz not null default timezone('utc', now()),
@@ -111,6 +112,17 @@ begin
 end;
 $$;
 
+create or replace function public.sync_is_available()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.is_available := (new.quantity_available > 0);
+
+  return new;
+end;
+$$;
+
 drop trigger if exists profiles_set_updated_at on public.profiles;
 create trigger profiles_set_updated_at
 before update on public.profiles
@@ -120,6 +132,11 @@ drop trigger if exists products_set_updated_at on public.products;
 create trigger products_set_updated_at
 before update on public.products
 for each row execute function public.set_updated_at();
+
+drop trigger if exists products_sync_is_available on public.products;
+create trigger products_sync_is_available
+before insert or update on public.products
+for each row execute function public.sync_is_available();
 
 drop trigger if exists inventory_activity_set_updated_at on public.inventory_activity;
 create trigger inventory_activity_set_updated_at

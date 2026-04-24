@@ -79,15 +79,17 @@ class AdminProductsTab extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
+                final quantity = int.tryParse(qtyCtrl.text.trim()) ?? 0;
                 final product = Product(
                   productId: '',
-                  productName: nameCtrl.text,
-                  specification: specCtrl.text,
+                  productName: nameCtrl.text.trim(),
+                  specification: specCtrl.text.trim(),
                   category: category,
-                  code: codeCtrl.text,
+                  code: codeCtrl.text.trim().toUpperCase(),
                   imageUrl: '',
                   price: double.tryParse(priceCtrl.text) ?? 0.0,
-                  quantityAvailable: int.tryParse(qtyCtrl.text) ?? 0,
+                  quantityAvailable: quantity,
+                  isAvailable: quantity > 0,
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
                 );

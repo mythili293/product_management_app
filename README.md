@@ -15,7 +15,9 @@ Flutter inventory and purchasing app wired for Supabase authentication and data.
 ## Supabase setup
 
 1. Create a Supabase project.
-2. In the Supabase SQL editor, run [`supabase/migrations/20260423_initial_schema.sql`](supabase/migrations/20260423_initial_schema.sql).
+2. In the Supabase SQL editor, run the migration files in order:
+   [`supabase/migrations/20260423_initial_schema.sql`](supabase/migrations/20260423_initial_schema.sql)
+   [`supabase/migrations/20260424_add_is_available.sql`](supabase/migrations/20260424_add_is_available.sql)
 3. In `Authentication -> Sign In / Providers`, enable:
    - Email
    - Google
@@ -51,5 +53,14 @@ flutter run --dart-define=SUPABASE_URL=https://your-project.supabase.co --dart-d
 
 - Admin users are routed to the inventory dashboard.
 - Regular users are routed to the store and personal purchases flow.
+- The app now treats `is_available` as part of the required product schema.
 - If you change the mobile redirect scheme, update the native platform files too.
 - Android, iOS, and macOS callback wiring is included in this repo. If you ship Windows or Linux desktop OAuth callbacks, add OS-level custom protocol registration for `productmanagementapp://`.
+
+
+
+admin quey:
+
+UPDATE public.profiles
+SET role = 'admin'
+WHERE email = 'your-email@example.com';

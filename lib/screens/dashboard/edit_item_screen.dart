@@ -43,6 +43,19 @@ class _EditItemScreenState extends State<EditItemScreen> {
     );
     _selectedCategory = widget.product.category;
     _isAvailable = widget.product.isAvailable;
+    _qtyController.addListener(_syncAvailabilityWithQuantity);
+  }
+
+  void _syncAvailabilityWithQuantity() {
+    final quantity = int.tryParse(_qtyController.text.trim());
+    if (quantity == null) {
+      return;
+    }
+
+    final nextAvailability = Product.isAvailableForQuantity(quantity);
+    if (_isAvailable != nextAvailability && mounted) {
+      setState(() => _isAvailable = nextAvailability);
+    }
   }
 
   Future<void> _submitItem() async {
@@ -53,12 +66,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
     setState(() => _isSubmitting = true);
 
     try {
-      var quantity = int.parse(_qtyController.text.trim());
-      if (!_isAvailable) {
-        quantity = 0;
-      } else if (quantity == 0) {
-        quantity = 1;
-      }
+      final quantity = int.parse(_qtyController.text.trim());
+      final isAvailable = Product.isAvailableForQuantity(quantity);
 
       final updatedProduct = widget.product.copyWith(
         productName: _nameController.text.trim(),
@@ -67,6 +76,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         code: _codeController.text.trim().toUpperCase(),
         quantityAvailable: quantity,
         price: double.parse(_priceController.text.trim()),
+        isAvailable: isAvailable,
         updatedAt: DateTime.now(),
       );
 
@@ -338,13 +348,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         inactiveTrackColor: Colors.red.shade200,
                         value: _isAvailable,
                         onChanged: (value) {
+                          final currentQuantity =
+                              int.tryParse(_qtyController.text.trim()) ?? 0;
+                          final nextQuantity = value
+                              ? (currentQuantity > 0 ? currentQuantity : 1)
+                              : 0;
+
                           setState(() {
                             _isAvailable = value;
-                            if (!_isAvailable) {
-                              _qtyController.text = '0';
-                            } else if (_qtyController.text.trim() == '0') {
-                              _qtyController.text = '1';
-                            }
+                            _qtyController.text = nextQuantity.toString();
+                            _qtyController.selection = TextSelection.collapsed(
+                              offset: _qtyController.text.length,
+                            );
                           });
                         },
                       ),
@@ -426,6 +441,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   @override
   void dispose() {
+    _qtyController.removeListener(_syncAvailabilityWithQuantity);
     _nameController.dispose();
     _codeController.dispose();
     _descController.dispose();
