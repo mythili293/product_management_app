@@ -43,6 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/key.properties
+/android/*.jks
+/android/*.keystore
 
 # Environment / secrets
 # supabase_config.dart contains API keys — do not commit production keys to public repos

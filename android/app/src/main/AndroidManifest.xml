@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:label="product_management_app"
+        android:label="Product Management App"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
