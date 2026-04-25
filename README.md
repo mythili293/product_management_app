@@ -49,6 +49,41 @@ Legacy key name also works:
 flutter run --dart-define=SUPABASE_URL=https://your-project.supabase.co --dart-define=SUPABASE_ANON_KEY=your_publishable_key
 ```
 
+## Deploy to Vercel
+
+This repo is ready for Vercel Flutter web deployment.
+
+1. Push the repository to GitHub, GitLab, or Bitbucket.
+2. Import the project in Vercel.
+3. Keep the framework preset as `Other`.
+4. Vercel will use [`vercel.json`](vercel.json):
+   - Build command: `bash scripts/vercel-build.sh`
+   - Output directory: `build/web`
+5. Add these Vercel environment variables:
+
+```text
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+```
+
+`SUPABASE_ANON_KEY` is also supported for older Supabase projects, but prefer
+`SUPABASE_PUBLISHABLE_KEY` for new deployments.
+
+Optional:
+
+```text
+FLUTTER_VERSION=stable
+```
+
+After Vercel gives you a production URL, add it in Supabase under
+`Authentication -> URL Configuration`:
+
+```text
+Site URL: https://your-vercel-domain.vercel.app
+Redirect URLs:
+https://your-vercel-domain.vercel.app/**
+```
+
 ## Notes
 
 - Admin users are routed to the inventory dashboard.

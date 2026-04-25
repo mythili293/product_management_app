@@ -1,11 +1,11 @@
 {
-    "name": "product_management_app",
-    "short_name": "product_management_app",
+    "name": "Product Management",
+    "short_name": "Products",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
-    "description": "A new Flutter project.",
+    "description": "Product management, inventory, purchases, and admin workflows.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
