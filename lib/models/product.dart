@@ -5,6 +5,7 @@ class Product {
   final String category;
   final String code;
   final String imageUrl;
+  final String? iconName;
   final int quantityAvailable;
   final double price;
   final bool isAvailable;
@@ -18,6 +19,7 @@ class Product {
     required this.category,
     required this.code,
     required this.imageUrl,
+    this.iconName,
     required this.quantityAvailable,
     required this.price,
     required this.isAvailable,
@@ -53,6 +55,7 @@ class Product {
       code: data['code']?.toString() ?? '',
       imageUrl:
           data['image_url']?.toString() ?? data['imageUrl']?.toString() ?? '',
+      iconName: data['icon_name']?.toString(),
       quantityAvailable: qty,
       price: (data['price'] as num?)?.toDouble() ?? 0,
       isAvailable: isAvailableForQuantity(qty),
@@ -68,6 +71,7 @@ class Product {
     String? category,
     String? code,
     String? imageUrl,
+    String? iconName,
     int? quantityAvailable,
     double? price,
     bool? isAvailable,
@@ -81,6 +85,7 @@ class Product {
       category: category ?? this.category,
       code: code ?? this.code,
       imageUrl: imageUrl ?? this.imageUrl,
+      iconName: iconName ?? this.iconName,
       quantityAvailable: quantityAvailable ?? this.quantityAvailable,
       price: price ?? this.price,
       isAvailable: isAvailable ?? this.isAvailable,
@@ -96,6 +101,7 @@ class Product {
       'category': category,
       'code': code,
       'image_url': imageUrl.isEmpty ? null : imageUrl,
+      'icon_name': iconName,
       'quantity_available': quantityAvailable,
       'price': price,
       'is_available': isAvailableForQuantity(quantityAvailable),
@@ -109,6 +115,7 @@ class Product {
       'category': category,
       'code': code,
       'image_url': imageUrl.isEmpty ? null : imageUrl,
+      'icon_name': iconName,
       'quantity_available': quantityAvailable,
       'price': price,
       'is_available': isAvailableForQuantity(quantityAvailable),

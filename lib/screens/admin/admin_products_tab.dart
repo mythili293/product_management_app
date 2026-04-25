@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../models/product.dart';
+import '../../utils/icon_resolver.dart';
 
 class AdminProductsTab extends StatelessWidget {
   const AdminProductsTab({super.key});
@@ -134,6 +135,19 @@ class AdminProductsTab extends StatelessWidget {
             itemBuilder: (context, index) {
               final product = products[index];
               return ListTile(
+                leading: Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    resolveIcon(product.iconName),
+                    color: const Color(0xFF1E293B),
+                    size: 22,
+                  ),
+                ),
                 title: Text(product.productName),
                 subtitle: Text(
                   'Stock: ${product.quantityAvailable} | \$${product.price}',

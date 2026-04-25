@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../models/product.dart';
+import '../../utils/icon_resolver.dart';
 
 class UserProductsTab extends StatelessWidget {
   const UserProductsTab({super.key});
@@ -125,9 +126,27 @@ class UserProductsTab extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          product.productName,
-                          style: Theme.of(context).textTheme.titleLarge,
+                        Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF1F5F9),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                resolveIcon(product.iconName),
+                                color: const Color(0xFF1E293B),
+                                size: 22,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              product.productName,
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ],
                         ),
                         Text(
                           '\$${product.price.toStringAsFixed(2)}',
