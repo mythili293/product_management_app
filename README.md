@@ -57,7 +57,7 @@ This repo is ready for Vercel Flutter web deployment.
 2. Import the project in Vercel.
 3. Keep the framework preset as `Other`.
 4. Vercel will use [`vercel.json`](vercel.json):
-   - Build command: `bash scripts/vercel-build.sh`
+   - Build command: `bash vercel-build.sh`
    - Output directory: `build/web`
 5. Add these Vercel environment variables:
 
